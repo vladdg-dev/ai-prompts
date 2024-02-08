@@ -1,20 +1,20 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { Suspense, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 import Form from "@/components/Form";
 
 const CreatePrompt = () => {
+  const router = useRouter();
+  const { data: session } = useSession();
+
   const [submitting, setSubmitting] = useState(false);
   const [post, setPost] = useState({
     prompt: "",
     tag: "",
   });
-
-  const router = useRouter();
-  const { data: session } = useSession();
 
   const createPrompt = async (event) => {
     event.preventDefault();
@@ -30,8 +30,9 @@ const CreatePrompt = () => {
         }),
       });
 
-      if (!response.ok) return;
-      router.push("/");
+      if (response.ok) {
+        router.push("/");
+      }
     } catch (error) {
       console.log(error);
     } finally {
@@ -40,7 +41,7 @@ const CreatePrompt = () => {
   };
 
   return (
-    <Suspense>
+    <Suspense fallback={<div>Loading...</div>}>
       <Form
         type="Create"
         post={post}

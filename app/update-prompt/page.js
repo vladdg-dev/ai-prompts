@@ -8,11 +8,10 @@ import Form from "@/components/Form";
 const UpdatePrompt = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-
   const promptId = searchParams.get("id");
 
-  const [submitting, setSubmitting] = useState(false);
   const [post, setPost] = useState({ prompt: "", tag: "" });
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     const getPromptDetails = async () => {
@@ -40,8 +39,9 @@ const UpdatePrompt = () => {
         }),
       });
 
-      if (!response.ok) return;
-      router.push("/profile");
+      if (response.ok) {
+        router.push("/");
+      }
     } catch (error) {
       console.log(error);
     } finally {
@@ -50,7 +50,7 @@ const UpdatePrompt = () => {
   };
 
   return (
-    <Suspense>
+    <Suspense fallback={<div>Loading...</div>}>
       <Form
         type="Edit"
         post={post}
