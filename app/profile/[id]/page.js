@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams, useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 
 import UserProfile from "@/components/UserProfile";
 
@@ -24,11 +24,13 @@ const Page = () => {
   }, []);
 
   return (
-    <UserProfile
-      name={username}
-      description={`Welcome to ${username}'s personalized profile page. Explore ${username}'s exceptional prompts and be inspired by the power of their imagination`}
-      posts={posts}
-    />
+    <Suspense>
+      <UserProfile
+        name={username}
+        description={`Welcome to ${username}'s personalized profile page. Explore ${username}'s exceptional prompts and be inspired by the power of their imagination`}
+        posts={posts}
+      />
+    </Suspense>
   );
 };
 
