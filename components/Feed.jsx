@@ -20,9 +20,12 @@ const Feed = () => {
   const handleSearchChange = (event) => setSearchQuery(event.target.value);
 
   const filteredPosts = useMemo(() => {
-    if (!searchQuery.trim()) return posts;
+    if (!searchQuery) return posts;
 
-    const searchRegex = new RegExp(searchQuery, "i");
+    const searchRegex = new RegExp(
+      searchQuery.replace(/[^a-zA-Z0-9]/g, ""),
+      "i"
+    );
 
     return posts.filter((post) =>
       [post.creator.username, post.tag, post.prompt].some((text) =>
@@ -30,6 +33,8 @@ const Feed = () => {
       )
     );
   }, [posts, searchQuery]);
+
+  const handleTagClick = (tag) => setSearchQuery(tag);
 
   return (
     <section className="feed">
@@ -43,7 +48,7 @@ const Feed = () => {
           className="search_input peer"
         />
       </form>
-      <PromptCardList posts={filteredPosts} handleTagClick={() => {}} />
+      <PromptCardList posts={filteredPosts} handleTagClick={handleTagClick} />
     </section>
   );
 };
