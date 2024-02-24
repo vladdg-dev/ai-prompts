@@ -1,6 +1,9 @@
 import Nav from "@/components/Nav";
 import Provider from "@/components/Provider";
+import SuspenseProvider from "@/components/SuspenseProvider";
+
 import "@/styles/globals.css";
+
 
 export const metadata = {
   title: "Ai Prompts",
@@ -17,7 +20,7 @@ const RootLayout = ({ children }) => {
           </div>
           <main className="app">
             <Nav />
-            {children}
+            <SuspenseProvider>{children}</SuspenseProvider>
           </main>
         </Provider>
       </body>
